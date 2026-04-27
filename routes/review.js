@@ -5,10 +5,10 @@ const ExpressError= require("../utils/ExpressError.js");
 const Review= require("../models/review.js");
 const Listing= require("../models/listing.js");
 const { validateReview, isLoggedIn, isReviewAuthor }= require("../middleware.js");
-const { createReview } = require("../controllers/review.js");
-
-
-const reviewController= require("../controllers/review.js");
+// controller file is singular 'review.js'
+const reviewController = require("../controllers/review.js");
+// optional shorthand if you only need one export:
+// const { createReview } = reviewController;
 
 //validate listing
 

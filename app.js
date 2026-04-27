@@ -18,25 +18,16 @@ const MongoStore = require('connect-mongo').default;
 const flash= require("connect-flash");
 const passport= require("passport");
 const LocalStrategy= require("passport-local"); 
-const User= require("./models/user.js");
+const User= require("./models/user");
 
 const listingRouter= require("./routes/listing.js");
 const reviewRouter= require("./routes/review.js");
-const userRouter= require("./routes/user.js")
+const userRouter= require("./routes/user")
 //connect the wanderlust databse
 
-const dbUrl= process.env.ATLASDB_URL ;
+// in app.js
+const dbUrl = process.env.ATLASDB_URL || 'mongodb://127.0.0.1:27017/wanderlustclg';
 
-main()
-    .then(()=>{
-        console.log("connected to db");
-    })
-    .catch((err) =>{
-        console.log(err);
-    });
-
-
-    
 async function main(){
     await mongoose.connect(dbUrl, {
         serverSelectionTimeoutMS: 30000,
@@ -49,7 +40,12 @@ async function main(){
         maxStalenessSeconds: 120,
         family: 4
     });
+    console.log("connected to db");
 }
+
+main().catch((err) =>{
+    console.log(err);
+});
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname,"views"));
@@ -66,7 +62,7 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-store.on("error", ()=>{
+store.on("error", (err)=>{
     console.log("Error in MONGO SESSION STORE",err);
 })
 
@@ -101,10 +97,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// ensure currUser is always defined for templates
+app.locals.currUser = null;
 app.use((req,res,next)=>{
     res.locals.success= req.flash("success");
     res.locals.error= req.flash("error");
-    res.locals.currUser= req.user;
+    res.locals.currUser= req.user || null;
     next();
 })
 
@@ -144,15 +142,25 @@ db.on('error', (err) => {
 //     res.send(registeredUser);
 // })
 
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+app.use("/listings", listingRouter);
+
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
 
 
 
-app.all("/*abc",(req,res,next)=>{
-    next(new ExpressError(404,"page not found"));
-})
+// app.use((req,res,next)=>{
+//     next(new ExpressError(404,"page not found"));
+// })
+
+app.use((req, res, next) => {
+  next(new ExpressError(404,"Page Not Found"));
+});
+
 
 app.use((err,req,res,next)=>{
     console.error('Express error handler caught:', err);

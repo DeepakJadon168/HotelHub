@@ -5,7 +5,8 @@
        <b> <%=listing.title %></b><br>      
         </div>
     <div class=" col-8 offset-3 show-card" >
-  <img src="<%= (listing.image && listing.image.url) ? listing.image.url : '/images/placeholder.svg' %>"
+  <!-- <img src="<%= (listing.image && listing.image.url) ? listing.image.url : '/images/placeholder.svg' %>" -->
+   <img src="<%= (listing.image && listing.image.url) ? listing.image.url : '/images/placeholder.svg' %>"
         class="card-img-top show-img listing-card" 
         >
 
@@ -101,12 +102,12 @@
         </div>
         <% } %>
     </div>
-     <div class="col-8 offset-3 mb-3">
+     <!-- <div class="col-8 offset-3 mb-3">
             <h3>Where you'll be</h3>
             <div id="map"></div>
         </div>
-</div>
-<script>
+</div> -->
+<!-- <script>
 	let mapToken= " <%= process.env.MAP_TOKEN %>"
     console.log(mapToken);
 	mapboxgl.accessToken = mapToken;
@@ -115,4 +116,4 @@
         center: [-74.5, 40], // starting position [lng, lat]. Note that lat must be set between -90 and 90
         zoom: 9 // starting zoom
     });
-</script>
+</script> -->

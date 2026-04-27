@@ -1,7 +1,4 @@
 {
-  "engines":{
-    "node": "v22.17.0"
-  },
   "name": "deebnb",
   "version": "1.0.0",
   "description": "",
@@ -25,7 +22,7 @@
     "express-session": "^1.19.0",
     "joi": "^18.0.2",
     "method-override": "^3.0.0",
-    "mongoose": "^9.2.4",
+    "mongoose": "^7.8.9",
     "mongoosh": "^0.0.7",
     "multer": "^2.1.1",
     "multer-storage-cloudinary": "^2.2.1",
