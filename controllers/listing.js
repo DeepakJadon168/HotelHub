@@ -1,12 +1,29 @@
 const Listing=require("../models/listing.js")
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
-module.exports.index=async(req,res)=>{
-    const allListings= await Listing.find({});
-    res.render("listings/index.ejs",{allListings});
+module.exports.index = async (req, res) => {
+  const { category, location } = req.query;
+  
+  let filter = {};
+  
+  if (category) {
+    filter.category = category;
+  }
 
+  if (location) {
+    filter.location = { $regex: new RegExp(escapeRegex(location), "i") };
+  }
+
+  const allListings = await Listing.find(filter);
+
+  res.render("listings/index.ejs", { 
+    allListings, 
+    activeCategory: category || null 
+  });
 };
-
 
 module.exports.renderNewForm=(req,res)=>{ 
     res.render("listings/new.ejs");

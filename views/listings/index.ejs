@@ -1,90 +1,176 @@
 <% layout ("/layouts/boilerplate") %> 
 <body>
   <style>
-    #filters{
+    #filters {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      padding: 0 1rem;
     }
-    .filters{
+    .filter-item {
       text-align: center;
       margin-right: 2rem;
       margin-top: 2rem;
       opacity: 0.7;
+      transition: opacity 0.3s ease;
     }
-    .filters:hover{
+    .filter-item:hover {
       opacity: 1;
       cursor: pointer;
     }
-    .filters p{
+    .filter-item p {
       font-size: 0.8rem;
+      margin: 0.5rem 0 0 0;
     }
-    .tax-info{
+    .filter-item a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    .filter-item.active-filter {
+      border-bottom: 2px solid black;
+      opacity: 1 !important;
+    }
+    .filter-item.active-filter p {
+      font-weight: 600;
+    }
+    .filter-icon {
+      font-size: 1.5rem;
+    }
+    .tax-info {
       display: none;
     }
-    .tax-toggle{
+    .tax-toggle {
       border: 1px solid lightgray;
       border-radius: 1rem;
       height: 3.25rem;
       padding: 1rem;
       margin-left: auto;
     }
+    
+    /* Category Badge Styling */
+    .category-badge {
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .category-badge[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .category-badge[title]:hover::before {
+      content: '';
+      position: absolute;
+      bottom: 115%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #333;
+      z-index: 1000;
+    }
   </style>
 
-  <div id="filters">
-    <div class="filters">
-      <div><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-bed"></i></div>
-      <p>Rooms</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-mountain-city"></i></div>
-      <p>Iconic Cities</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-brands fa-fort-awesome"></i></div>
-      <p>Mountain</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-mountain"></i></div>
-      <p>Castles</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-person-swimming"></i></div>
-      <p>Arctic</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-campground"></i></div>
-      <p>Camping</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-tractor"></i></div>
-      <p>Farms</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-regular fa-snowflake"></i></div>
-      <p>Snow</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-solid fa-igloo"></i></div>
-      <p>Domes</p>
-    </div>
-    <div class="filters">
-      <div><i class="fa-regular fa-ship"></i></div>
-      <p>Boats</p>
-    </div>
-
-    <div class="tax-toggle">
-      <div class="form-check-reverse form-switch"></div>
-      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-      <label class="form-check-label" for="switchCheckDefault">Display Total after Taxes</label>
-      </div>
-    </div>
+<!-- Category Filter Bar -->
+<div id="filters">
+  <div class="filter-item <%= !activeCategory ? 'active-filter' : '' %>">
+    <a href="/listings">
+      <div class="filter-icon"><i class="fa-solid fa-list"></i></div>
+      <p>All</p>
+    </a>
   </div>
- <div class="container mt-4">
+  <div class="filter-item <%= activeCategory === 'trending' ? 'active-filter' : '' %>">
+    <a href="/listings?category=trending">
+      <div class="filter-icon"><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'rooms' ? 'active-filter' : '' %>">
+    <a href="/listings?category=rooms">
+      <div class="filter-icon"><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'cities' ? 'active-filter' : '' %>">
+    <a href="/listings?category=cities">
+      <div class="filter-icon"><i class="fa-solid fa-city"></i></div>
+      <p>Iconic Cities</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'mountain' ? 'active-filter' : '' %>">
+    <a href="/listings?category=mountain">
+      <div class="filter-icon"><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountain</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'castles' ? 'active-filter' : '' %>">
+    <a href="/listings?category=castles">
+      <div class="filter-icon"><i class="fa-solid fa-chess-rook"></i></div>
+      <p>Castles</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'arctic' ? 'active-filter' : '' %>">
+    <a href="/listings?category=arctic">
+      <div class="filter-icon"><i class="fa-regular fa-snowflake"></i></div>
+      <p>Arctic</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'camping' ? 'active-filter' : '' %>">
+    <a href="/listings?category=camping">
+      <div class="filter-icon"><i class="fa-solid fa-campground"></i></div>
+      <p>Camping</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'farms' ? 'active-filter' : '' %>">
+    <a href="/listings?category=farms">
+      <div class="filter-icon"><i class="fa-solid fa-tractor"></i></div>
+      <p>Farms</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'snow' ? 'active-filter' : '' %>">
+    <a href="/listings?category=snow">
+      <div class="filter-icon"><i class="fa-solid fa-icicles"></i></div>
+      <p>Snow</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'domes' ? 'active-filter' : '' %>">
+    <a href="/listings?category=domes">
+      <div class="filter-icon"><i class="fa-solid fa-igloo"></i></div>
+      <p>Domes</p>
+    </a>
+  </div>
+  <div class="filter-item <%= activeCategory === 'boats' ? 'active-filter' : '' %>">
+    <a href="/listings?category=boats">
+      <div class="filter-icon"><i class="fa-solid fa-sailboat"></i></div>
+      <p>Boats</p>
+    </a>
+  </div>
+</div>
+
+<div style="display: flex; width: 100%; justify-content: flex-end; padding: 0 1rem;">
+  <div class="tax-toggle">
+    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+    <label class="form-check-label" for="switchCheckDefault">Display Total after Taxes</label>
+  </div>
+</div>
+
+<div class="container mt-4">
  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-4 justify-content-center">  
      <% for(let listing of allListings){ %>
     <a href="/listings/<%= listing._id %>" class="listing-link">
@@ -99,7 +185,43 @@
 <div class="card-img-overlay"></div>
   <div class="card-body">
     <p class="card-text">
-        <b><%= listing.title %></b> <br>
+        <b><%= listing.title %></b> 
+        <% 
+          const categoryIcons = {
+            'trending': '🔥',
+            'rooms': '🛏️',
+            'cities': '🏙️',
+            'mountain': '⛰️',
+            'castles': '🏰',
+            'arctic': '❄️',
+            'camping': '⛺',
+            'farms': '🚜',
+            'snow': '🏔️',
+            'domes': '🏠',
+            'boats': '⛵'
+          };
+          const categoryNames = {
+            'trending': 'Trending',
+            'rooms': 'Rooms',
+            'cities': 'Iconic Cities',
+            'mountain': 'Mountain',
+            'castles': 'Castles',
+            'arctic': 'Arctic',
+            'camping': 'Camping',
+            'farms': 'Farms',
+            'snow': 'Snow',
+            'domes': 'Domes',
+            'boats': 'Boats'
+          };
+        %>
+        <span
+          class="category-badge"
+          title="<%= categoryNames[listing.category] || listing.category %>"
+          onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/listings?category=<%= listing.category %>'"
+        >
+          <%= categoryIcons[listing.category] || '📍' %>
+        </span>
+        <br>
         &#8377;<%=listing.price.toLocaleString("en-IN") %> /night<br>
         <i class="tax-info"> &nbsp; &nbsp; +18%GST </i>
     </p>

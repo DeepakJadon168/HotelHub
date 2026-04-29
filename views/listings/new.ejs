@@ -50,6 +50,33 @@
             <input type="text" name="listing[location]" placeholder="jaipur,rajasthan"  class="form-control" required>
             <div class="invalid-feedback">enter the location</div>
         </div>
+
+        <hr class="my-4">
+
+        <!-- About Your Home Section -->
+        <div class="mb-4">
+            <h5 class="mb-3"><strong>About Your Home</strong></h5>
+            <p class="text-muted">Select the category that best describes your property</p>
+            
+            <div class="mb-3">
+                <label for="category" class="form-label">Property Category</label>
+                <select name="listing[category]" id="category" class="form-select" required>
+                    <option value="trending">🔥 Trending</option>
+                    <option value="rooms">🛏️ Rooms</option>
+                    <option value="cities">🏙️ Iconic Cities</option>
+                    <option value="mountain">⛰️ Mountain</option>
+                    <option value="castles">🏰 Castles</option>
+                    <option value="arctic">❄️ Arctic</option>
+                    <option value="camping">⛺ Camping</option>
+                    <option value="farms">🚜 Farms</option>
+                    <option value="snow">🏔️ Snow</option>
+                    <option value="domes">🏠 Domes</option>
+                    <option value="boats">⛵ Boats</option>
+                </select>
+                <div class="invalid-feedback">Please select a category</div>
+            </div>
+        </div>
+
         <br><br>
         <button class="btn btn-dark add-btn">Add</button>
         <br><br>

@@ -23,6 +23,7 @@ const User= require("./models/user");
 const listingRouter= require("./routes/listing.js");
 const reviewRouter= require("./routes/review.js");
 const userRouter= require("./routes/user")
+const bookingRouter = require("./routes/booking");
 //connect the wanderlust databse
 
 // in app.js
@@ -87,6 +88,7 @@ const port = process.env.PORT || 8080;
 
 
 
+
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -103,6 +105,7 @@ app.use((req,res,next)=>{
     res.locals.success= req.flash("success");
     res.locals.error= req.flash("error");
     res.locals.currUser= req.user || null;
+    res.locals.searchLocation = req.query.location || "";
     next();
 })
 
@@ -145,11 +148,11 @@ db.on('error', (err) => {
 app.get("/", (req, res) => {
     res.redirect("/listings");
 });
-app.use("/listings", listingRouter);
 
-app.use("/listings",listingRouter);
-app.use("/listings/:id/reviews",reviewRouter);
-app.use("/",userRouter);
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/bookings", bookingRouter);
+app.use("/", userRouter);
 
 
 

@@ -5,6 +5,7 @@ const Listing= require("../models/listing.js");
 const { isLoggedIn,isOwner,validateListing}= require("../middleware.js");
 // controller file is singular 'listing.js'
 const listingController = require("../controllers/listing.js");
+const bookingController = require("../controllers/booking");
 const multer= require("multer");
 const {storage}=require("../cloudconfig.js");
 const upload= multer({ storage});
@@ -24,6 +25,11 @@ const upload= multer({ storage});
 //New Route
 router.get("/new",isLoggedIn,listingController.renderNewForm)
 
+router.post("/:id/book",
+    isLoggedIn,
+    wrapAsync(bookingController.createBooking)
+); 
+
 
 //show update and delete Route
     router.route("/:id")
@@ -38,8 +44,9 @@ router.get("/new",isLoggedIn,listingController.renderNewForm)
                 isLoggedIn,
                 isOwner,
                  wrapAsync(listingController.deleteListing)
-            );       
-    
+            );
+
+   
 
 //edit Route
 router.get("/:id/edit",
