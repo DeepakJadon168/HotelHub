@@ -1,7 +1,10 @@
-#Project Members
-Deepak Singh Jadon - Backend Development
-Deepak Gurjar - Frontend Development
-Chirag Mandloi - Data collection & gathering
+## 👨‍💻 Team Members
+
+| Name | Role |
+|------|------|
+| Deepak Singh Jadon | Backend Development |
+| Deepak Gurjar | Frontend Development |
+| Chirag Mandloi | Data Collection & Gathering |
 
 # 🏨 WanderLust — Airbnb Clone
 
