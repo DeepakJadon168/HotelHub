@@ -1,3 +1,8 @@
+#Project Members
+Deepak Singh Jadon - Backend Development
+Deepak Gurjar - Frontend Development
+Chirag Mandloi - Data collection & gathering
+
 # 🏨 WanderLust — Airbnb Clone
 
 A full-stack web application inspired by Airbnb, where users can create, explore, and book property listings from around the world.
