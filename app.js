@@ -2,8 +2,6 @@ if(process.env.NODE_ENV !="production"){
     require('dotenv').config();
 }
 
-console.log(process.env.SECRET);
-
 const express= require("express");
 const app= express();
 const mongoose= require("mongoose");
@@ -14,7 +12,7 @@ const ejsMate= require("ejs-mate");
 const ExpressError= require("./utils/ExpressError.js");
 const wrapAsync= require("./utils/wrapAsync.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo').default;
+const { MongoStore } = require('connect-mongo');
 const flash= require("connect-flash");
 const passport= require("passport");
 const LocalStrategy= require("passport-local"); 
@@ -38,7 +36,6 @@ async function main(){
         minPoolSize: 10,
         retryWrites: true,
         retryReads: true,
-        maxStalenessSeconds: 120,
         family: 4
     });
     console.log("connected to db");
