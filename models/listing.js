@@ -14,21 +14,20 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
       ref: "Review",
     },
   ],
-  owner: {
-  type: Schema.Types.ObjectId,
-  ref: "User",
-  },
- category: {
+  contact: {
     type: String,
-    enum: ["trending","rooms","cities","mountain","castles","arctic","camping","farms","snow","domes","boats"],
-},
-  
+    required: true,
+  }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

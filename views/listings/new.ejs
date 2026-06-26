@@ -1,85 +1,95 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row">
-    <div class="col-8 offset-2 ">
-            <h3>Create a New Listing</h3>
-    <form action="/listings"
-         method="POST" 
-         novalidate class="needs-validation" 
-         enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-        <input type="text"
-         name="listing[title]"
-          placeholder="enter title" 
-          class="form-control"
-          required>
-             <div class="valid-feedback">Title looks good</div>
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <br><br>
+    <h3>List Your PG Room</h3>
+
+    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input name="listing[title]" placeholder="e.g., Ghar Angan PG near MANIT" type="text" class="form-control" required/>
+        <div class="invalid-feedback">Please enter a title.</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="listing[description]" class="form-control" rows="3" required></textarea>
+        <div class="invalid-feedback">Please enter a description.</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Upload Image</label>
+        <input type="file" name="listing[image]" class="form-control"/>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Monthly Rent (₹)</label>
+          <input name="listing[price]" placeholder="8000" type="number" min="0" class="form-control" required/>
+          <div class="invalid-feedback">Please enter monthly rent.</div>
         </div>
-     
-
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea type ="text" name="listing[description]" placeholder=""  class="form-control" required></textarea>
-            <div class="invalid-feedback">please enter description</div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Security Deposit (₹)</label>
+          <input name="listing[securityDeposit]" placeholder="8000" type="number" min="0" class="form-control"/>
         </div>
+      </div>
 
-
-         <div class="mb-3"> 
-            <label for="image" class="form-label">upload image</label>
-            <input type="file" name="listing[image]"  class="form-control" >
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Location</label>
+          <input name="listing[location]" placeholder="BhanwarKua, Indore" type="text" class="form-control" required/>
+          <div class="invalid-feedback">Location is required.</div>
         </div>
-       
-       <div class="row">
-         <div class="mb-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
-            <input type="text" name="listing[price]" placeholder="1200"  class="form-control" required>
-            <div class="invalid-feedback">please enter price</div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Country</label>
+          <input name="listing[country]" placeholder="India" type="text" class="form-control" required/>
+          <div class="invalid-feedback">Country is required.</div>
         </div>
-         
-        <div class="mb-3 col-8">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[country]" placeholder="india"  class="form-control" required>
-            <div class="invalid-feedback">enter country name</div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Category</label>
+          <select name="listing[category]" class="form-select">
+            <option value="" disabled selected>Choose</option>
+            <option value="trending">🔥 Trending</option>
+            <option value="rooms">🛏️ Rooms</option>
+            <option value="cities">🏙️ Iconic Cities</option>
+            <option value="boys-pg">👦 Boys PG</option>
+            <option value="girls-pg">👧 Girls PG</option>
+            <option value="co-ed">👥 Co-ed</option>
+          </select>
         </div>
-       </div>
+      </div>
 
-
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" name="listing[location]" placeholder="jaipur,rajasthan"  class="form-control" required>
-            <div class="invalid-feedback">enter the location</div>
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Gender Preference</label>
+          <select name="listing[genderPreference]" class="form-select">
+            <option value="" disabled selected>Choose one</option>
+            <option value="boys">👦 Boys Only</option>
+            <option value="girls">👧 Girls Only</option>
+            <option value="co-ed">👥 Co-ed</option>
+          </select>
         </div>
-
-        <hr class="my-4">
-
-        <!-- About Your Home Section -->
-        <div class="mb-4">
-            <h5 class="mb-3"><strong>About Your Home</strong></h5>
-            <p class="text-muted">Select the category that best describes your property</p>
-            
-            <div class="mb-3">
-                <label for="category" class="form-label">Property Category</label>
-                <select name="listing[category]" id="category" class="form-select" required>
-                    <option value="trending">🔥 Trending</option>
-                    <option value="rooms">🛏️ Rooms</option>
-                    <option value="cities">🏙️ Iconic Cities</option>
-                    <option value="mountain">⛰️ Mountain</option>
-                    <option value="castles">🏰 Castles</option>
-                    <option value="arctic">❄️ Arctic</option>
-                    <option value="camping">⛺ Camping</option>
-                    <option value="farms">🚜 Farms</option>
-                    <option value="snow">🏔️ Snow</option>
-                    <option value="domes">🏠 Domes</option>
-                    <option value="boats">⛵ Boats</option>
-                </select>
-                <div class="invalid-feedback">Please select a category</div>
-            </div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Sharing Type</label>
+          <select name="listing[sharingType]" class="form-select">
+            <option value="" disabled selected>Choose one</option>
+            <option value="single">Single Sharing</option>
+            <option value="double">Double Sharing</option>
+            <option value="triple">Triple Sharing</option>
+          </select>
         </div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Contact Number</label>
+          <input name="listing[contact]" placeholder="e.g., 9876543210" type="text" class="form-control" required/>
+          <div class="invalid-feedback">Please enter contact number.</div>
+        </div>
+      </div>
 
-        <br><br>
-        <button class="btn btn-dark add-btn">Add</button>
-        <br><br>
+      <button type="submit" class="btn w-100 py-2 mt-3 mb-5 rounded-3 fw-bold" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; box-shadow: 0 4px 15px rgba(138,99,255,0.4);">
+  <i class="fa-solid fa-plus me-2"></i> Add your PG
+</button>
     </form>
-    </div>
+  </div>
 </div>

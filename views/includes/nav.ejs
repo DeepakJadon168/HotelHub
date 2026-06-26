@@ -1,54 +1,55 @@
-<style>
-  .search-btn {
-    background-color: #fe424d;
-    color:#fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-  .search-btn:hover {
-    background-color: #fe424d;
-    color:#fff
-  }
-  .search-btn i{
-    display: inline;
-    margin-right: 0.5rem;
-  }
-  .search-inp {
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
-  }
-</style>
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class="container-fluid px-0">
+    
+    <a class="brand-wordmark" href="/listings">
+      PG<span class="wallah-suffix">Wallah</span>
+    </a>
 
-<nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <ul class="navbar-nav me-auto mb-2 mb-md-0 mt-2 mt-md-0">
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 text-white fw-semibold" href="/listings">
+            <i class="fa-solid fa-compass me-2 text-primary"></i>Explore PGs
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto gap-2 align-items-md-center mobile-collapse-spacing">
         
-        <a class="nav-link" href="/listings">Explore</a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search" action="/listings" method="GET">
-      <input class="form-control me-2 search-inp" name="location" type="search" placeholder="Search Destinations" aria-label="Search" value="<%= typeof searchLocation !== 'undefined' ? searchLocation : '' %>" />
-      <button class="btn search-btn" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
-      </div>
-       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% // guard against undefined currUser to avoid ReferenceError %>
-        <% if(typeof currUser === 'undefined' || !currUser){ %>
-        <a class="nav-link "  href="/signup"> <b>SignUp</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-3 fw-bold mb-2 mb-md-0" href="/listings/new" style="background-color: var(--primary-soft); border: 1px solid rgba(138, 99, 255, 0.25); color: var(--primary) !important;">
+            <i class="fa-solid fa-house-medical me-2"></i>List your PG
+          </a>
+        </li>
+
+        <% if(!currUser) { %>
+          <li class="nav-item">
+            <a class="nav-link px-3 py-2 rounded-3 text-white fw-semibold" href="/signup">
+              <i class="fa-solid fa-user-plus me-2 d-md-none"></i>Sign up
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3 py-2 rounded-3 fw-semibold text-white" href="/login" style="border: 1px solid var(--border); background-color: var(--bg-elevated);">
+              <i class="fa-solid fa-arrow-right-to-bracket me-2 d-md-none"></i>Log in
+            </a>
+          </li>
         <% } %>
-        <% if(currUser) {%>
-        <a class="nav-link" href="/logout"><b>Logout</b></a>
+
+        <% if(currUser) { %>
+          <li class="nav-item">
+            <a class="nav-link px-3 py-2 rounded-3 text-danger fw-semibold" href="/logout">
+              <i class="fa-solid fa-power-off me-2"></i>Log out
+            </a>
+          </li>
         <% } %>
-      </div>
+        
+      </ul>
+
     </div>
   </div>
 </nav>

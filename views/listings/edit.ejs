@@ -1,74 +1,95 @@
 <% layout("/layouts/boilerplate") %>
 
-  <div class="row mt-3">
-    <div class="col-8 offset-2">
-          <h3>Edit your listing:</h3>
-    <form action="/listings/<%= listing._id %>?_method=PUT"
-        method="POST"
-         novalidate 
-         class="needs-validation"
-         enctype="multipart/form-data"
-         >
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <br>
+    <h3 class="text-white mb-4">Edit Your PG Details</h3>
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
-        </div>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
 
-        <div class="mb-3">
-             <label for="description" class="form-label" >Description</label>
-             <textarea type ="text" name="listing[description]" value="<%= listing.description %>" class="form-control" required></textarea>
-        </div>
-        
-        <div class="mb-3">
-            Original Listing Image <br>
-            <img src="<%= originalImageUrl %>" >
-        </div>
+      <div class="mb-3">
+        <label class="form-label text-muted">Title</label>
+        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+      </div>
 
-        <div class="mb-3">
-            <label for="image" class="form-label">upload new image</label>
-            <input type="file"
-            name="listing[image]"
-              class="form-control" >
-        </div>
-        
+      <div class="mb-3">
+        <label class="form-label text-muted">Description</label>
+        <textarea name="listing[description]" class="form-control text-white" rows="3" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"><%= listing.description %></textarea>
+      </div>
 
-        <div class="row">
+      <div class="mb-3">
+        <label class="form-label text-muted">Current Image</label><br>
+        <% if(listing.image && listing.image.url) { %>
+          <img src="<%= listing.image.url.replace('/upload', '/upload/w_250') %>" style="border-radius:8px; margin-bottom:0.5rem; display:block;" />
+        <% } %>
+        <label class="form-label mt-2 text-muted">Upload New Image</label>
+        <input type="file" name="listing[image]" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Monthly Rent (₹)</label>
+          <input name="listing[price]" value="<%= listing.price %>" type="number" min="0" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Security Deposit (₹)</label>
+          <input name="listing[securityDeposit]" value="<%= listing.securityDeposit || 0 %>" type="number" min="0" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="mb-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" name="listing[price]" value="<%= listing.price %>" class="form-control" required>
+          <label class="form-label text-muted">Location</label>
+          <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
         </div>
-        
-        <div class="mb-3 col-8"> 
-            <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[country]" value="<%= listing.country %>" class="form-control" required>
+        <div class="mb-3 col-md-4">
+          <label class="form-label text-muted">Country</label>
+          <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
         </div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label text-muted">Category</label>
+          <select name="listing[category]" class="form-select text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;">
+            <option value="trending" <%= listing.category === 'trending' ? 'selected' : '' %>>🔥 Trending</option>
+            <option value="rooms" <%= listing.category === 'rooms' ? 'selected' : '' %>>🛏️ Rooms</option>
+            <option value="cities" <%= listing.category === 'cities' ? 'selected' : '' %>>🏙️ Iconic Cities</option>
+            <option value="boys-pg" <%= listing.category === 'boys-pg' ? 'selected' : '' %>>👦 Boys PG</option>
+            <option value="girls-pg" <%= listing.category === 'girls-pg' ? 'selected' : '' %>>👧 Girls PG</option>
+            <option value="co-ed" <%= listing.category === 'co-ed' ? 'selected' : '' %>>👥 Co-ed</option>
+            <option value="wifi-enabled" <%= listing.category === 'wifi-enabled' ? 'selected' : '' %>>📶 WiFi</option>
+            <option value="ac" <%= listing.category === 'ac' ? 'selected' : '' %>>❄️ AC Rooms</option>
+            <option value="food" <%= listing.category === 'food' ? 'selected' : '' %>>🍽️ Food Included</option>
+            <option value="attached-bath" <%= listing.category === 'attached-bath' ? 'selected' : '' %>>🚿 Attached Bath</option>
+            <option value="parking" <%= listing.category === 'parking' ? 'selected' : '' %>>🅿️ Parking</option>
+          </select>
         </div>
+      </div>
 
-        <div class="mb-3">
-             <label for="location" class="form-label">Location</label>
-            <input type="text" name="listing[location]" value="<%= listing.location %>" class="form-control" required>
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label class="form-label text-muted">Gender Preference</label>
+          <select name="listing[genderPreference]" class="form-select text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;">
+            <option value="boys" <%= listing.genderPreference === 'boys' ? 'selected' : '' %>>👦 Boys Only</option>
+            <option value="girls" <%= listing.genderPreference === 'girls' ? 'selected' : '' %>>👧 Girls Only</option>
+            <option value="co-ed" <%= listing.genderPreference === 'co-ed' ? 'selected' : '' %>>👥 Co-ed</option>
+          </select>
         </div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label text-muted">Sharing Type</label>
+          <select name="listing[sharingType]" class="form-select text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;">
+            <option value="single" <%= listing.sharingType === 'single' ? 'selected' : '' %>>Single Sharing</option>
+            <option value="double" <%= listing.sharingType === 'double' ? 'selected' : '' %>>Double Sharing</option>
+            <option value="triple" <%= listing.sharingType === 'triple' ? 'selected' : '' %>>Triple Sharing</option>
+          </select>
+        </div>
+        <div class="mb-3 col-md-4">
+          <label class="form-label text-muted">Contact Number</label>
+          <input name="listing[contact]" value="<%= listing.contact || '' %>" placeholder="e.g., 9876543210" type="text" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+      </div>
 
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select name="listing[category]" id="category" class="form-select" required>
-                <option value="trending" <%= listing.category === 'trending' ? 'selected' : '' %>>Trending</option>
-                <option value="rooms" <%= listing.category === 'rooms' ? 'selected' : '' %>>Rooms</option>
-                <option value="cities" <%= listing.category === 'cities' ? 'selected' : '' %>>Iconic Cities</option>
-                <option value="mountain" <%= listing.category === 'mountain' ? 'selected' : '' %>>Mountain</option>
-                <option value="castles" <%= listing.category === 'castles' ? 'selected' : '' %>>Castles</option>
-                <option value="arctic" <%= listing.category === 'arctic' ? 'selected' : '' %>>Arctic</option>
-                <option value="camping" <%= listing.category === 'camping' ? 'selected' : '' %>>Camping</option>
-                <option value="farms" <%= listing.category === 'farms' ? 'selected' : '' %>>Farms</option>
-                <option value="snow" <%= listing.category === 'snow' ? 'selected' : '' %>>Snow</option>
-                <option value="domes" <%= listing.category === 'domes' ? 'selected' : '' %>>Domes</option>
-                <option value="boats" <%= listing.category === 'boats' ? 'selected' : '' %>>Boats</option>
-            </select>
-        </div>
-        
-        <button class="btn btn-dark edit-btn mb-3">Edit</button>
+      <button type="submit" class="btn btn-primary mt-3 mb-5 px-5 py-2 rounded-3 fw-bold" style="background: linear-gradient(to right, var(--primary), var(--primary-dark)); border: none;">
+        <i class="fa-solid fa-floppy-disk me-2"></i> Save Changes
+      </button>
     </form>
-    </div>
   </div>
-
+</div>

@@ -1,243 +1,136 @@
-<% layout ("/layouts/boilerplate") %> 
+<% layout ("/layouts/boilerplate") %>
 <body>
-  <style>
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      padding: 0 1rem;
-    }
-    .filter-item {
-      text-align: center;
-      margin-right: 2rem;
-      margin-top: 2rem;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
-    .filter-item:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-    .filter-item p {
-      font-size: 0.8rem;
-      margin: 0.5rem 0 0 0;
-    }
-    .filter-item a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: inherit;
-    }
-    .filter-item.active-filter {
-      border-bottom: 2px solid black;
-      opacity: 1 !important;
-    }
-    .filter-item.active-filter p {
-      font-weight: 600;
-    }
-    .filter-icon {
-      font-size: 1.5rem;
-    }
-    .tax-info {
-      display: none;
-    }
-    .tax-toggle {
-      border: 1px solid lightgray;
-      border-radius: 1rem;
-      height: 3.25rem;
-      padding: 1rem;
-      margin-left: auto;
-    }
-    
-    /* Category Badge Styling */
-    .category-badge {
-      font-size: 1.2rem;
-      margin-left: 0.5rem;
-      cursor: pointer;
-      display: inline-block;
-      position: relative;
-    }
-    
-    .category-badge[title]:hover::after {
-      content: attr(title);
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #333;
-      color: white;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.25rem;
-      font-size: 0.75rem;
-      white-space: nowrap;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .category-badge[title]:hover::before {
-      content: '';
-      position: absolute;
-      bottom: 115%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: #333;
-      z-index: 1000;
-    }
-  </style>
 
-<!-- Category Filter Bar -->
-<div id="filters">
-  <div class="filter-item <%= !activeCategory ? 'active-filter' : '' %>">
-    <a href="/listings">
-      <div class="filter-icon"><i class="fa-solid fa-list"></i></div>
-      <p>All</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'trending' ? 'active-filter' : '' %>">
-    <a href="/listings?category=trending">
-      <div class="filter-icon"><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'rooms' ? 'active-filter' : '' %>">
-    <a href="/listings?category=rooms">
-      <div class="filter-icon"><i class="fa-solid fa-bed"></i></div>
-      <p>Rooms</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'cities' ? 'active-filter' : '' %>">
-    <a href="/listings?category=cities">
-      <div class="filter-icon"><i class="fa-solid fa-city"></i></div>
-      <p>Iconic Cities</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'mountain' ? 'active-filter' : '' %>">
-    <a href="/listings?category=mountain">
-      <div class="filter-icon"><i class="fa-solid fa-mountain"></i></div>
-      <p>Mountain</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'castles' ? 'active-filter' : '' %>">
-    <a href="/listings?category=castles">
-      <div class="filter-icon"><i class="fa-solid fa-chess-rook"></i></div>
-      <p>Castles</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'arctic' ? 'active-filter' : '' %>">
-    <a href="/listings?category=arctic">
-      <div class="filter-icon"><i class="fa-regular fa-snowflake"></i></div>
-      <p>Arctic</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'camping' ? 'active-filter' : '' %>">
-    <a href="/listings?category=camping">
-      <div class="filter-icon"><i class="fa-solid fa-campground"></i></div>
-      <p>Camping</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'farms' ? 'active-filter' : '' %>">
-    <a href="/listings?category=farms">
-      <div class="filter-icon"><i class="fa-solid fa-tractor"></i></div>
-      <p>Farms</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'snow' ? 'active-filter' : '' %>">
-    <a href="/listings?category=snow">
-      <div class="filter-icon"><i class="fa-solid fa-icicles"></i></div>
-      <p>Snow</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'domes' ? 'active-filter' : '' %>">
-    <a href="/listings?category=domes">
-      <div class="filter-icon"><i class="fa-solid fa-igloo"></i></div>
-      <p>Domes</p>
-    </a>
-  </div>
-  <div class="filter-item <%= activeCategory === 'boats' ? 'active-filter' : '' %>">
-    <a href="/listings?category=boats">
-      <div class="filter-icon"><i class="fa-solid fa-sailboat"></i></div>
-      <p>Boats</p>
-    </a>
-  </div>
-</div>
+<div class="container">
+  <div class="search-hero">
+    <div class="hero-content">
+      <h1>Find your next PG, no agent fees</h1>
+      <p>No dalaal, no jhanjhat — seedha malik se baat.</p>
+      
+      <form action="/listings" method="GET">
+        <div class="search-bar-wrap">
+          <i class="fa-solid fa-location-dot"></i>
+          <input type="search" name="location" class="form-control" placeholder="Search by area, college, or city..." value="<%= typeof searchLocation !== 'undefined' ? searchLocation : '' %>" />
+          <button type="submit" class="btn-search">
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+          </button>
+        </div>
+      </form>
 
-<div style="display: flex; width: 100%; justify-content: flex-end; padding: 0 1rem;">
-  <div class="tax-toggle">
-    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-    <label class="form-check-label" for="switchCheckDefault">Display Total after Taxes</label>
-  </div>
-</div>
-
-<div class="container mt-4">
- <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-4 justify-content-center">  
-     <% for(let listing of allListings){ %>
-    <a href="/listings/<%= listing._id %>" class="listing-link">
-    <div class="card col listing-card">
-
-  <img
-     src="<%= (listing.image && listing.image.url) ? listing.image.url : '/images/placeholder.svg' %>"
-    class="card-img-top"
-    alt="listing_image"
-    style="height: 20rem;">
-
-<div class="card-img-overlay"></div>
-  <div class="card-body">
-    <p class="card-text">
-        <b><%= listing.title %></b> 
-        <% 
-          const categoryIcons = {
-            'trending': '🔥',
-            'rooms': '🛏️',
-            'cities': '🏙️',
-            'mountain': '⛰️',
-            'castles': '🏰',
-            'arctic': '❄️',
-            'camping': '⛺',
-            'farms': '🚜',
-            'snow': '🏔️',
-            'domes': '🏠',
-            'boats': '⛵'
-          };
-          const categoryNames = {
-            'trending': 'Trending',
-            'rooms': 'Rooms',
-            'cities': 'Iconic Cities',
-            'mountain': 'Mountain',
-            'castles': 'Castles',
-            'arctic': 'Arctic',
-            'camping': 'Camping',
-            'farms': 'Farms',
-            'snow': 'Snow',
-            'domes': 'Domes',
-            'boats': 'Boats'
-          };
-        %>
-        <span
-          class="category-badge"
-          title="<%= categoryNames[listing.category] || listing.category %>"
-          onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/listings?category=<%= listing.category %>'"
-        >
-          <%= categoryIcons[listing.category] || '📍' %>
+      <div class="trust-chip-row">
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Verified Properties
         </span>
-        <br>
-        &#8377;<%=listing.price.toLocaleString("en-IN") %> /night<br>
-        <i class="tax-info"> &nbsp; &nbsp; +18%GST </i>
-    </p>
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Zero Brokerage
+        </span>
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          Direct Owner Connect
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200" alt="Comfortable Shared Student Living" />
+      <span class="hero-photo-badge">✨ Authentic Home Feel</span>
+    </div>
   </div>
-</div>
-</a>
-<% } %></div>
+
+  <div class="filter-pill-row">
+    <a href="/listings" class="filter-pill <%= !activeCategory ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-house-user"></i></span> All PGs
+    </a>
+    <a href="/listings?category=trending" class="filter-pill <%= activeCategory === 'trending' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-fire"></i></span> Trending
+    </a>
+    <a href="/listings?category=rooms" class="filter-pill <%= activeCategory === 'rooms' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-bed"></i></span> Rooms
+    </a>
+    <a href="/listings?category=cities" class="filter-pill <%= activeCategory === 'cities' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-city"></i></span> Iconic Cities
+    </a>
+    <a href="/listings?category=boys-pg" class="filter-pill <%= activeCategory === 'boys-pg' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-person"></i></span> Boys PG
+    </a>
+    <a href="/listings?category=girls-pg" class="filter-pill <%= activeCategory === 'girls-pg' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-person-dress"></i></span> Girls PG
+    </a>
+    <a href="/listings?category=co-ed" class="filter-pill <%= activeCategory === 'co-ed' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-people-group"></i></span> Co-ed
+    </a>
+    <a href="/listings?category=wifi-enabled" class="filter-pill <%= activeCategory === 'wifi-enabled' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-wifi"></i></span> WiFi
+    </a>
+    <a href="/listings?category=ac" class="filter-pill <%= activeCategory === 'ac' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-snowflake"></i></span> AC Rooms
+    </a>
+    <a href="/listings?category=food" class="filter-pill <%= activeCategory === 'food' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-utensils"></i></span> Food Included
+    </a>
+    <a href="/listings?category=attached-bath" class="filter-pill <%= activeCategory === 'attached-bath' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-bath"></i></span> Attached Bath
+    </a>
+    <a href="/listings?category=parking" class="filter-pill <%= activeCategory === 'parking' ? 'active' : '' %>">
+      <span class="pill-icon"><i class="fa-solid fa-square-parking"></i></span> Parking
+    </a>
+  </div>
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
+    <% for(let listing of allListings) { %>
+      <%
+        let imgUrl;
+        if (listing.image && listing.image.url) {
+          imgUrl = listing.image.url;
+        } else {
+          imgUrl = 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80';
+        }
+      %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+          <div class="card listing-card">
+            <div class="position-relative">
+              <img 
+                src="<%= imgUrl %>" 
+                class="card-img-top" 
+                alt="listing_image" 
+                style="height: 14rem; object-fit: cover;"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80';"
+              >
+              <% if(listing.category) { %>
+                <span class="category-tag text-uppercase"><%= listing.category %></span>
+              <% } %>
+            </div>
+            <div class="card-body">
+              <b class="listing-title"><%= listing.title %></b>
+              <p class="text-muted mt-1 mb-1" style="font-size:0.82rem;">
+                <i class="fa-solid fa-location-dot me-1"></i><%= listing.location %>
+              </p>
+              <% if(listing.genderPreference || listing.sharingType) { %>
+                <p class="mb-1" style="font-size:0.78rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  <% if(listing.genderPreference) { %>
+                    <span style="background:var(--primary-soft); color:var(--primary); border:1px solid rgba(138,99,255,0.3); border-radius:6px; padding:0.2rem 0.55rem; font-weight:700;">
+                      <%= listing.genderPreference === 'boys' ? '👦 Boys' : listing.genderPreference === 'girls' ? '👧 Girls' : '👥 Co-ed' %>
+                    </span>
+                  <% } %>
+                  <% if(listing.sharingType) { %>
+                    <span style="background:rgba(255,255,255,0.04); color:var(--ink-soft); border:1px solid var(--border); border-radius:6px; padding:0.2rem 0.55rem; font-weight:700;">
+                      <%= listing.sharingType.charAt(0).toUpperCase() + listing.sharingType.slice(1) %> Sharing
+                    </span>
+                  <% } %>
+                </p>
+              <% } %>
+              <span class="listing-price">
+                &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                <span class="unit">/month</span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
 </div>
 </body>
-
-<script>
-  let taxSwitch= document.getElementById('switchCheckDefault');
-  taxSwitch.addEventListener("click",()=>{
-    let taxInfo= document.getElementsByClassName('tax-info');
-    for(info of taxInfo){
-      info.style.display = info.style.display === 'inline' ? 'none' : 'inline';
-    }
-  })
-</script>

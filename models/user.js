@@ -2,11 +2,20 @@ const mongoose= require("mongoose");
 const Schema= mongoose.Schema;
 const passportLocalMongoose= require("passport-local-mongoose");
 
-const userSchema= new Schema({
-    email: {
-        type:String,
-        required: true
-    }
+const userSchema = new Schema({
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    role: { 
+        type: String, 
+        enum: ["student", "professional", "owner"], 
+        default: "student" 
+    },
+    gender: { 
+        type: String, 
+        enum: ["male", "female", "other"],
+        required: true 
+    },
+    organization: { type: String } // College or Office Name
 });
 
 userSchema.plugin(passportLocalMongoose);

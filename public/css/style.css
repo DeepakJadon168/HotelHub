@@ -1,116 +1,473 @@
-body{
-    background-color: "Plus Jakarta Sans", sans-serif !important;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* ============================================================
+   DESIGN TOKENS — "PG Wallah" (Mockup Accurate Premium UI)
+   ============================================================ */
+:root {
+  --primary: #8A63FF;           
+  --primary-dark: #6C3CFF;
+  --primary-soft: rgba(138, 99, 255, 0.12);
+  --accent: #7C5CFF;            
+  --accent-dark: #6347E0;
+  --bg: #07070A;                /* Pure Deep Slate-Matte Black */
+  --bg-elevated: #0F0F17;       /* Precise Structural Backing */
+  --card: #13131F;              /* Elegant Container Tint */
+  --ink: #F5F5F7;
+  --ink-soft: #8B8B9F;
+  --border: #1E1E2E;            /* Ultra Fine Dark Mesh Border */
+  --success: #2ED27A;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --shadow-hover: rgba(0, 0, 0, 0.85);
+  --glow-primary: rgba(138, 99, 255, 0.25);
+
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
 }
 
-.container{
-    flex: 1;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+body {
+  background-color: var(--bg) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-body) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
 
-/* Navbar */
+h1, h2, h3, h4, h5, h6, strong, b, .brand-wordmark {
+  font-family: var(--font-display) !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.025em !important;
+}
+
+.text-muted {
+  color: var(--ink-soft) !important;
+}
+
+.container {
+  flex: 1;
+  margin-top: 2.5rem;
+  margin-bottom: 3.5rem;
+}
+
+/* ---------------- 100% Matching Navbar ---------------- */
 .navbar {
-    height: 5rem;
+  height: 5.2rem;
+  background-color: #0B0B12 !important; 
+  border-bottom: 1px solid var(--border) !important;
+  padding: 0 1.5rem !important;
 }
-.fa-compass {
-    color: #fe424d;
-    font-size: 2rem;
-
+.brand-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #FFFFFF !important;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(138, 99, 255, 0.4);
+}
+.brand-wordmark .wallah-suffix {
+  background: linear-gradient(135deg, var(--primary) 30%, #C3B0FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  margin-left: 0.1rem;
 }
 .nav-link {
-    color: #222222 !important;
-
+  color: var(--ink-soft) !important;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem !important;
+  transition: color 0.2s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: #fff !important;
+}
+.nav-link b {
+  color: inherit !important;
+}
+.navbar-toggler {
+  border-color: var(--border) !important;
+  background-color: var(--bg-elevated) !important;
+}
+.navbar-toggler-icon {
+  filter: invert(1);
 }
 
-/* Footer */
-.f-info-links a{
-    text-decoration: none;
-    color: #222222;
+/* ---------------- Elegant Integrated Canvas Hero ---------------- */
+.search-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0F0C20 0%, #15102A 50%, #07070A 100%);
+  border: 1px solid rgba(138, 99, 255, 0.2); 
+  border-radius: 28px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 40px 70px rgba(0,0,0,0.7), 0 0 30px rgba(138, 99, 255, 0.05);
+  display: flex;
+  align-items: stretch;
+  min-height: 410px;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 4rem 3.5rem;
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.search-hero h1 {
+  font-size: 2.6rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.8rem !important;
+  font-weight: 800;
+}
+.search-hero p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+.search-bar-wrap {
+  background: rgba(15, 15, 23, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(138, 99, 255, 0.2);
+  border-radius: 16px;
+  padding: 0.45rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  max-width: 520px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+.search-bar-wrap i.fa-location-dot {
+  color: var(--primary);
+  margin-left: 0.8rem;
+  font-size: 1.05rem;
+}
+.search-bar-wrap input {
+  border: none !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 0.95rem;
+}
+.search-bar-wrap input::placeholder {
+  color: #525266;
+}
+.search-bar-wrap input:focus {
+  box-shadow: none !important;
+}
+.search-bar-wrap .btn-search {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(138, 99, 255, 0.4);
+  transition: transform 0.2s, background-color 0.2s;
+}
+.search-bar-wrap .btn-search:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #5325F6 100%);
+  transform: translateY(-1px);
 }
 
-.f-info-links a:hover{
-    text-decoration: underline;
-    
+/* Trust Pills */
+.trust-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
+}
+.trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  color: #E2E2E9 !important;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+.trust-chip:hover {
+  background: rgba(138, 99, 255, 0.08);
+  border-color: rgba(138, 99, 255, 0.3);
+  transform: translateY(-1px);
 }
 
+.hero-photo-wrap {
+  position: relative;
+  flex: 1 1 45%;
+  overflow: hidden;
+  border-radius: 0 28px 28px 0;
+}
+.hero-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-photo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0F0C20 0%, rgba(21, 18, 51, 0) 18%);
+}
+.hero-photo-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: rgba(11, 11, 18, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 991px) {
+  .search-hero { flex-direction: column; min-height: auto; }
+  .hero-photo-wrap { flex-basis: 260px; border-radius: 0 0 28px 28px; }
+  .hero-photo-wrap::after { background: linear-gradient(180deg, #0F0C20 0%, rgba(21, 18, 51, 0) 25%); }
+  .hero-content { padding: 3rem 1.5rem; }
+}
+
+/* ---------------- Smooth Scroll Pills Navigation ---------------- */
+.filter-pill-row {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.8rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2.5rem;
+}
+.filter-pill-row::-webkit-scrollbar {
+  height: 3px;
+}
+.filter-pill-row::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  white-space: nowrap;
+  padding: 0.55rem 1.3rem 0.55rem 0.7rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.filter-pill .pill-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+.filter-pill:hover, .filter-pill.active {
+  border-color: var(--primary);
+  color: #fff;
+  background: var(--primary-soft);
+}
+.filter-pill.active .pill-icon {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ---------------- CRITICAL FIX: Links & Underlines Removal ---------------- */
+.listing-link, .listing-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+  outline: none;
+}
+
+/* ---------------- Premium Consistent Grid Cards ---------------- */
+.listing-card {
+  border: 1px solid var(--border) !important;
+  border-radius: 18px !important;
+  background: var(--bg-elevated) !important;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
+  height: 100%;
+}
+.listing-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary) !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 15px var(--glow-primary);
+}
+.card-img-top {
+  border-radius: 0 !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.4s ease;
+}
+.listing-card:hover .card-img-top {
+  transform: scale(1.04);
+}
+.card-body {
+  padding: 1.35rem !important;
+  background: var(--bg-elevated) !important;
+}
+
+/* Forced White Visiblity For Titles & Prices */
+.listing-title {
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+.listing-price {
+  font-weight: 800 !important;
+  font-size: 1.15rem !important;
+  color: #FFFFFF !important;
+}
+.listing-price .unit {
+  color: var(--ink-soft) !important;
+  font-weight: 500 !important;
+  font-size: 0.8rem;
+}
+.category-tag {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  background: rgba(7, 7, 10, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 10px;
+  z-index: 2;
+}
+
+/* ---------------- 100% Matte Dark Footer ---------------- */
+footer {
+  margin-top: auto;
+}
 .f-info {
-    text-align: center;
-    display: flex;
-    height: 8rem;
-    background-color:#ebebeb ;
-    align-items: space-evenly;
-    justify-content: center;
-    flex-wrap: wrap;
-
+  background-color: #0B0B12 !important; 
+  border-top: 1px solid var(--border) !important;
+  padding: 2.2rem 1rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  height: auto !important;
+}
+.f-info-socials, .f-info-links, .f-info-brand {
+  width: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.f-info-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--ink) !important;
+}
+.f-info-socials i {
+  color: var(--ink-soft);
+  font-size: 1.3rem;
+  margin: 0 !important;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.f-info-socials i:hover {
+  color: var(--primary);
+}
+.f-info-links a {
+  text-decoration: none;
+  color: var(--ink-soft) !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.f-info-links a:hover {
+  color: var(--primary) !important;
 }
 
-.f-info-links, .f-info-socials, .f-info-brand{
+/* Form inputs & alerts UI */
+.form-control, .form-select, textarea {
+  background-color: var(--bg) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--border) !important;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--primary-soft) !important;
+}
+.alert-success {
+  background-color: var(--bg-elevated) !important;
+  border: 1px solid rgba(138, 99, 255, 0.3) !important;
+  color: var(--ink) !important;
+  border-radius: 12px;
+}
+
+
+/* ============================================================
+   PG WALLAH RESPONSIVE HAMBURGER NAVIGATION ADJUSTMENTS
+   ============================================================ */
+
+/* Mobile Screen Compatibility Fixes (Tablets & Phones) */
+@media (max-width: 767.98px) {
+  .navbar {
+    height: auto !important;
+    padding: 1rem 1.5rem !important;
+  }
+
+  /* Hamburger Dropdown Menu Containment */
+  .navbar-collapse {
+    background-color: #0F0F17 !important; /* Premium Matte Black Card Backing */
+    border: 1px solid var(--border) !important;
+    border-radius: 16px;
+    padding: 1.2rem !important;
+    margin-top: 0.8rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+  }
+  
+  /* Separation for Login/Signup Utilities on Mobile */
+  .mobile-collapse-spacing {
+    border-top: 1px solid var(--border) !important;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Link Block Alignment for Fluid Touch State */
+  .navbar-nav .nav-link {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
+    padding: 0.6rem 1rem !important;
+  }
 
-.f-info-socials i{
-    
-    font-size: 1.2rem;
-    margin-right: 1rem ;
-}
-
-/* cards */
-.listing-card{
-    border: none !important;
-    margin-bottom: 2rem;
-}
-.card-img-top {
-    border-radius: 1rem !important;
-    width: 100% !important;
-    object-fit: cover !important;
-}
-.card-body{
-    padding: 0 !important;
-}
-
-.card-text p{
-    font-weight: 400;
-}
-.listing-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* cards effect */
-.card-img-overlay{
-    opacity: 0;
-}
-
-.card-img-overlay:hover{
-    opacity: 0.2;
-    background-color: white;
-}
-
-/* New btn */
-.add-btn{
-    background-color: #fe424d !important;
-    border: none !important;
-}
-/* Edit btn */
-.edit-btn{
-    background-color: #fe424d !important;
-    border: none !important;
-}
-
-/* show img */
-.show-img {
-    height: 30vh;
-}
-.btns{
-    display: flex;
-}
-.show-card{
-    padding-left: 0;
-    padding-right: 0;
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
 }

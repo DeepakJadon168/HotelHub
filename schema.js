@@ -7,10 +7,17 @@ module.exports.listingSchema = Joi.object({
         location: Joi.string().required(),
         country: Joi.string().required(),
         price: Joi.number().required().min(0),
-        image: Joi.string().allow("", null),
-        category: Joi.string().valid("trending","rooms","cities","mountain","castles","arctic","camping","farms","snow","domes","boats").required()
+        image: Joi.object({
+            url: Joi.string().allow("", null),
+            filename: Joi.string().allow("", null),
+        }).allow(null),
+        category: Joi.string().allow("", null),
+        contact: Joi.string().allow("", null),
+        genderPreference: Joi.string().allow("", null),
+        sharingType: Joi.string().allow("", null),
+        securityDeposit: Joi.number().allow("", null),
     }).required()
-}).unknown(true); // Changed to true temporarily
+}).unknown(true);
 
 module.exports.reviewSchema = Joi.object({
     review: Joi.object({
