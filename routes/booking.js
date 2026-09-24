@@ -9,5 +9,6 @@ router.get("/my", isLoggedIn, wrapAsync(bookingController.myBookings));
 
 // Cancel a booking
 router.delete("/:bookingId", isLoggedIn, wrapAsync(bookingController.cancelBooking));
+router.patch("/:bookingId/status", isLoggedIn, wrapAsync(bookingController.updateBookingStatus));
 
 module.exports = router;

@@ -23,7 +23,7 @@
           <img src="<%= listing.image.url.replace('/upload', '/upload/w_250') %>" style="border-radius:8px; margin-bottom:0.5rem; display:block;" />
         <% } %>
         <label class="form-label mt-2 text-muted">Upload New Image</label>
-        <input type="file" name="listing[image]" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        <input type="file" name="listing[image]" class="form-control text-white" multiple style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
       </div>
 
       <div class="row">
@@ -34,6 +34,17 @@
         <div class="mb-3 col-md-6">
           <label class="form-label text-muted">Security Deposit (₹)</label>
           <input name="listing[securityDeposit]" value="<%= listing.securityDeposit || 0 %>" type="number" min="0" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Monthly Maintenance (₹)</label>
+          <input name="listing[maintenanceCharge]" value="<%= listing.maintenanceCharge || 0 %>" type="number" min="0" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Nearby College / Landmark</label>
+          <input name="listing[nearbyLandmark]" value="<%= listing.nearbyLandmark || '' %>" type="text" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
         </div>
       </div>
 
@@ -79,12 +90,55 @@
             <option value="single" <%= listing.sharingType === 'single' ? 'selected' : '' %>>Single Sharing</option>
             <option value="double" <%= listing.sharingType === 'double' ? 'selected' : '' %>>Double Sharing</option>
             <option value="triple" <%= listing.sharingType === 'triple' ? 'selected' : '' %>>Triple Sharing</option>
+            <option value="dorm" <%= listing.sharingType === 'dorm' ? 'selected' : '' %>>Dorm Sharing</option>
           </select>
         </div>
         <div class="mb-3 col-md-4">
           <label class="form-label text-muted">Contact Number</label>
           <input name="listing[contact]" value="<%= listing.contact || '' %>" placeholder="e.g., 9876543210" type="text" class="form-control text-white" required style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
         </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-muted">Amenities</label>
+        <div class="row g-2">
+          <% const amenities = [["wifi","WiFi"],["food","Food"],["ac","AC"],["attachedBath","Attached Bath"],["parking","Parking"],["laundry","Laundry"],["powerBackup","Power Backup"],["cctv","CCTV"],["housekeeping","Housekeeping"],["studyTable","Study Table"]]; %>
+          <% for (let amenity of amenities) { %>
+            <div class="col-md-4 col-6">
+              <label class="form-check text-muted">
+                <input class="form-check-input" type="checkbox" name="listing[amenities][<%= amenity[0] %>]" <%= listing.amenities && listing.amenities[amenity[0]] ? 'checked' : '' %>>
+                <span class="form-check-label"><%= amenity[1] %></span>
+              </label>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Gate Timing</label>
+          <input name="listing[rules][gateTiming]" value="<%= listing.rules && listing.rules.gateTiming ? listing.rules.gateTiming : '' %>" type="text" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label text-muted">Notice Period</label>
+          <input name="listing[rules][noticePeriod]" value="<%= listing.rules && listing.rules.noticePeriod ? listing.rules.noticePeriod : '' %>" type="text" class="form-control text-white" style="background-color: var(--bg-elevated) !important; border-color: var(--border) !important;"/>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-muted d-block">House Rules</label>
+        <label class="form-check form-check-inline text-muted">
+          <input class="form-check-input" type="checkbox" name="listing[rules][visitorsAllowed]" <%= listing.rules && listing.rules.visitorsAllowed ? 'checked' : '' %>>
+          <span class="form-check-label">Visitors allowed</span>
+        </label>
+        <label class="form-check form-check-inline text-muted">
+          <input class="form-check-input" type="checkbox" name="listing[rules][smokingAllowed]" <%= listing.rules && listing.rules.smokingAllowed ? 'checked' : '' %>>
+          <span class="form-check-label">Smoking allowed</span>
+        </label>
+        <label class="form-check form-check-inline text-muted">
+          <input class="form-check-input" type="checkbox" name="listing[rules][petsAllowed]" <%= listing.rules && listing.rules.petsAllowed ? 'checked' : '' %>>
+          <span class="form-check-label">Pets allowed</span>
+        </label>
       </div>
 
       <button type="submit" class="btn btn-primary mt-3 mb-5 px-5 py-2 rounded-3 fw-bold" style="background: linear-gradient(to right, var(--primary), var(--primary-dark)); border: none;">

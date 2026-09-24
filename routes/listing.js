@@ -5,7 +5,7 @@ const Listing= require("../models/listing.js");
 const { isLoggedIn,isOwner,validateListing}= require("../middleware.js");
 // controller file is singular 'listing.js'
 const listingController = require("../controllers/listing.js");
-const bookingController = require("../controllers/booking");
+const bookingController = require("../controllers/booking.js");
 const multer= require("multer");
 const {storage}=require("../cloudconfig.js");
 const upload= multer({ storage});
@@ -16,7 +16,7 @@ const upload= multer({ storage});
     .get(wrapAsync(listingController.index))
     .post(
         isLoggedIn,   //user logged in h
-        upload.single("listing[image]"), //multer process image ko
+        upload.array("listing[image]", 6), //multer process image ko
         validateListing, //validate karega listing ko
         wrapAsync(listingController.createListing)  //phir ham controller ke andr create listing bale callback ko execute karege
     );
@@ -24,11 +24,16 @@ const upload= multer({ storage});
 
 //New Route
 router.get("/new",isLoggedIn,listingController.renderNewForm)
+router.get("/wishlist", isLoggedIn, wrapAsync(listingController.wishlist));
+router.get("/dashboard/owner", isLoggedIn, wrapAsync(listingController.ownerDashboard));
 
 router.post("/:id/book",
     isLoggedIn,
     wrapAsync(bookingController.createBooking)
 ); 
+
+router.post("/:id/wishlist", isLoggedIn, wrapAsync(listingController.toggleWishlist));
+router.post("/:id/report", isLoggedIn, wrapAsync(listingController.reportListing));
 
 
 //show update and delete Route
@@ -37,7 +42,7 @@ router.post("/:id/book",
             .put(
                 isLoggedIn,
                 isOwner,
-                upload.single("listing[image]"),
+                upload.array("listing[image]", 6),
                 validateListing,
                 wrapAsync(listingController.updateListing))
             .delete(
@@ -56,4 +61,3 @@ router.get("/:id/edit",
 
 
 module.exports=router;
-

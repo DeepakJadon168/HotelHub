@@ -16,6 +16,27 @@ module.exports.listingSchema = Joi.object({
         genderPreference: Joi.string().allow("", null),
         sharingType: Joi.string().allow("", null),
         securityDeposit: Joi.number().allow("", null),
+        nearbyLandmark: Joi.string().allow("", null),
+        maintenanceCharge: Joi.number().allow("", null),
+        amenities: Joi.object({
+            wifi: Joi.any(),
+            food: Joi.any(),
+            ac: Joi.any(),
+            attachedBath: Joi.any(),
+            parking: Joi.any(),
+            laundry: Joi.any(),
+            powerBackup: Joi.any(),
+            cctv: Joi.any(),
+            housekeeping: Joi.any(),
+            studyTable: Joi.any(),
+        }).allow(null),
+        rules: Joi.object({
+            gateTiming: Joi.string().allow("", null),
+            visitorsAllowed: Joi.any(),
+            smokingAllowed: Joi.any(),
+            petsAllowed: Joi.any(),
+            noticePeriod: Joi.string().allow("", null),
+        }).allow(null),
     }).required()
 }).unknown(true);
 

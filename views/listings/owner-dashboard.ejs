@@ -1,0 +1,98 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4 mb-5">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <h2 class="text-white mb-0">
+      <i class="fa-solid fa-chart-line text-primary me-2"></i>Owner Dashboard
+    </h2>
+    <a href="/listings/new" class="btn btn-primary rounded-3" style="background: var(--primary); border: none;">
+      <i class="fa-solid fa-plus me-2"></i>Add PG
+    </a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="p-3 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+        <div class="text-muted small">Listings</div>
+        <div class="fs-3 fw-bold text-white"><%= listings.length %></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+        <div class="text-muted small">Pending Requests</div>
+        <div class="fs-3 fw-bold text-warning"><%= pendingBookings.length %></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+        <div class="text-muted small">Active Tenants</div>
+        <div class="fs-3 fw-bold text-success"><%= activeBookings.length %></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+        <div class="text-muted small">Confirmed Earnings</div>
+        <div class="fs-3 fw-bold text-white">₹<%= totalEarnings.toLocaleString("en-IN") %></div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="text-white mb-3">Booking Requests</h4>
+  <% if (!bookings.length) { %>
+    <div class="text-muted p-4 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+      No booking requests yet.
+    </div>
+  <% } else { %>
+    <div class="table-responsive rounded-3" style="border: 1px solid var(--border);">
+      <table class="table table-dark table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>PG</th>
+            <th>User</th>
+            <th>Dates</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let booking of bookings) { %>
+            <tr>
+              <td><a href="/listings/<%= booking.listing._id %>" class="text-decoration-none text-primary"><%= booking.listing.title %></a></td>
+              <td>
+                <div><%= booking.user ? booking.user.username : "Unknown" %></div>
+                <small class="text-muted"><%= booking.user ? booking.user.email : "" %></small>
+              </td>
+              <td>
+                <%= new Date(booking.checkIn).toLocaleDateString("en-IN") %> -
+                <%= new Date(booking.checkOut).toLocaleDateString("en-IN") %>
+              </td>
+              <td>₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
+              <td>
+                <span class="badge <%= booking.status === 'confirmed' ? 'text-bg-success' : booking.status === 'rejected' ? 'text-bg-danger' : booking.status === 'cancelled' ? 'text-bg-secondary' : 'text-bg-warning' %>">
+                  <%= booking.status %>
+                </span>
+              </td>
+              <td>
+                <% if (booking.status === "pending") { %>
+                  <div class="d-flex gap-2">
+                    <form action="/bookings/<%= booking._id %>/status?_method=PATCH" method="POST">
+                      <input type="hidden" name="status" value="confirmed">
+                      <button class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                    <form action="/bookings/<%= booking._id %>/status?_method=PATCH" method="POST">
+                      <input type="hidden" name="status" value="rejected">
+                      <button class="btn btn-sm btn-outline-danger">Reject</button>
+                    </form>
+                  </div>
+                <% } else { %>
+                  <span class="text-muted small">No action</span>
+                <% } %>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>

@@ -1,46 +1,8 @@
 <% layout("/layouts/boilerplate") %>
 
-<style>
-  .booking-card-item {
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
-  .booking-card-item:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-  }
-  .booking-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-  .badge-confirmed {
-    background-color: #d4edda;
-    color: #155724;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    padding: 3px 10px;
-  }
-  .cancel-btn {
-    border-radius: 8px;
-    font-size: 0.85rem;
-  }
-  .empty-state {
-    text-align: center;
-    padding: 4rem 1rem;
-    color: #888;
-  }
-  .empty-state i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #fe424d;
-  }
-</style>
-
 <div class="container mt-4 mb-5">
-  <h2 class="mb-4">
-    <i class="fa-solid fa-calendar-days" style="color:#fe424d;"></i>
+  <h2 class="mb-4 text-white">
+    <i class="fa-solid fa-calendar-days" style="color: var(--primary);"></i>
     My Bookings
   </h2>
 
@@ -48,8 +10,8 @@
     <div class="empty-state">
       <i class="fa-solid fa-suitcase-rolling"></i>
       <h4>No bookings yet!</h4>
-      <p>Explore listings and plan your next trip.</p>
-      <a href="/listings" class="btn btn-danger mt-2" style="border-radius:8px;">
+      <p>Explore listings and find your perfect PG.</p>
+      <a href="/listings" class="btn auth-btn mt-2 px-4">
         Explore Listings
       </a>
     </div>
@@ -63,59 +25,65 @@
 
               <a href="/listings/<%= booking.listing._id %>">
                 <img
-                  src="<%= booking.listing.image && booking.listing.image.url ? booking.listing.image.url : '/images/default.png' %>"
+                  src="<%= booking.listing.image && booking.listing.image.url ? booking.listing.image.url : 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80' %>"
                   alt="<%= booking.listing.title %>"
                   class="booking-img"
                 />
               </a>
 
               <div class="p-3">
-                <div class="d-flex justify-content-between align-items-start mb-1">
-                  <h5 class="mb-0" style="font-size:1rem;">
-                    <a href="/listings/<%= booking.listing._id %>" class="text-decoration-none text-dark">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h5 class="mb-0" style="font-size:0.95rem; color: var(--ink);">
+                    <a href="/listings/<%= booking.listing._id %>" class="text-decoration-none" style="color: var(--ink);">
                       <%= booking.listing.title %>
                     </a>
                   </h5>
-                  <span class="badge-confirmed">✓ Confirmed</span>
+                  <span class="<%= booking.status === 'confirmed' ? 'badge-confirmed' : booking.status === 'pending' ? 'badge-pending' : booking.status === 'cancelled' ? 'badge-cancelled' : 'badge-rejected' %>">
+                    <%= booking.status || "pending" %>
+                  </span>
                 </div>
 
-                <p class="text-muted mb-2" style="font-size:0.85rem;">
-                  <i class="fa-solid fa-location-dot"></i>
+                <p class="mb-2" style="font-size:0.82rem; color: var(--ink-soft);">
+                  <i class="fa-solid fa-location-dot me-1" style="color: var(--primary);"></i>
                   <%= booking.listing.location %>, <%= booking.listing.country %>
                 </p>
 
-                <div class="d-flex gap-3 mb-2" style="font-size:0.9rem;">
+                <div class="d-flex gap-3 mb-2" style="font-size:0.88rem;">
                   <div>
-                    <div class="text-muted" style="font-size:0.75rem;">CHECK-IN</div>
-                    <b><%= new Date(booking.checkIn).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) %></b>
+                    <div style="font-size:0.7rem; color: var(--ink-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.4px;">Check-in</div>
+                    <b style="color: var(--ink);">
+                      <%= new Date(booking.checkIn).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) %>
+                    </b>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-arrow-right" style="color: var(--ink-muted);"></i>
                   </div>
                   <div>
-                    <i class="fa-solid fa-arrow-right text-muted mt-2"></i>
-                  </div>
-                  <div>
-                    <div class="text-muted" style="font-size:0.75rem;">CHECK-OUT</div>
-                    <b><%= new Date(booking.checkOut).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) %></b>
+                    <div style="font-size:0.7rem; color: var(--ink-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.4px;">Check-out</div>
+                    <b style="color: var(--ink);">
+                      <%= new Date(booking.checkOut).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) %>
+                    </b>
                   </div>
                 </div>
 
                 <div class="mb-3" style="font-size:0.95rem;">
-                  <i class="fa-solid fa-indian-rupee-sign"></i>
-                  <b>₹<%= booking.totalPrice.toLocaleString("en-IN") %></b>
-                  <span class="text-muted">total</span>
+                  <i class="fa-solid fa-indian-rupee-sign" style="color: var(--primary);"></i>
+                  <b style="color: var(--ink);">₹<%= booking.totalPrice.toLocaleString("en-IN") %></b>
+                  <span style="color: var(--ink-muted);">total</span>
                 </div>
 
                 <% const today = new Date(); today.setHours(0,0,0,0); %>
                 <% const checkInDate = new Date(booking.checkIn); %>
-                <% if (checkInDate > today) { %>
+                <% if (checkInDate > today && booking.status !== "cancelled" && booking.status !== "rejected") { %>
                   <form action="/bookings/<%= booking._id %>?_method=DELETE" method="POST"
                         onsubmit="return confirm('Cancel this booking?')">
-                    <button class="btn btn-outline-danger cancel-btn w-100">
-                      <i class="fa-solid fa-xmark"></i> Cancel Booking
+                    <button class="btn cancel-btn w-100">
+                      <i class="fa-solid fa-xmark me-1"></i> Cancel Booking
                     </button>
                   </form>
                 <% } else { %>
-                  <div class="text-muted text-center" style="font-size:0.82rem;">
-                    <i class="fa-solid fa-clock"></i> Past / ongoing booking
+                  <div class="text-center" style="font-size:0.8rem; color: var(--ink-muted);">
+                    <i class="fa-solid fa-clock me-1"></i> No cancellation available
                   </div>
                 <% } %>
               </div>

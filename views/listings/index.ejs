@@ -78,6 +78,62 @@
     </a>
   </div>
 
+  <form action="/listings" method="GET" class="advanced-filter-bar my-4 p-3 rounded-3" style="background: var(--bg-elevated); border: 1px solid var(--border);">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label text-muted small fw-bold">Location</label>
+        <input type="search" name="location" class="form-control" placeholder="Area or city" value="<%= filters.location || '' %>">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label text-muted small fw-bold">Min Rent</label>
+        <input type="number" name="minPrice" class="form-control" min="0" value="<%= filters.minPrice || '' %>">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label text-muted small fw-bold">Max Rent</label>
+        <input type="number" name="maxPrice" class="form-control" min="0" value="<%= filters.maxPrice || '' %>">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label text-muted small fw-bold">Gender</label>
+        <select name="genderPreference" class="form-select">
+          <option value="">Any</option>
+          <option value="boys" <%= filters.genderPreference === 'boys' ? 'selected' : '' %>>Boys</option>
+          <option value="girls" <%= filters.genderPreference === 'girls' ? 'selected' : '' %>>Girls</option>
+          <option value="co-ed" <%= filters.genderPreference === 'co-ed' ? 'selected' : '' %>>Co-ed</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label text-muted small fw-bold">Sharing</label>
+        <select name="sharingType" class="form-select">
+          <option value="">Any</option>
+          <option value="single" <%= filters.sharingType === 'single' ? 'selected' : '' %>>Single</option>
+          <option value="double" <%= filters.sharingType === 'double' ? 'selected' : '' %>>Double</option>
+          <option value="triple" <%= filters.sharingType === 'triple' ? 'selected' : '' %>>Triple</option>
+          <option value="dorm" <%= filters.sharingType === 'dorm' ? 'selected' : '' %>>Dorm</option>
+        </select>
+      </div>
+      <div class="col-md-1 d-grid">
+        <button class="btn btn-primary" style="background: var(--primary); border: none;">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex gap-3 flex-wrap mt-3">
+      <% const selectedAmenities = Array.isArray(filters.amenities) ? filters.amenities : filters.amenities ? [filters.amenities] : []; %>
+      <% const amenityFilters = [["wifi","WiFi"],["food","Food"],["ac","AC"],["attachedBath","Attached Bath"],["parking","Parking"],["laundry","Laundry"],["powerBackup","Power Backup"],["cctv","CCTV"]]; %>
+      <% for (let amenity of amenityFilters) { %>
+        <label class="form-check text-muted small">
+          <input class="form-check-input" type="checkbox" name="amenities" value="<%= amenity[0] %>" <%= selectedAmenities.includes(amenity[0]) ? 'checked' : '' %>>
+          <span class="form-check-label"><%= amenity[1] %></span>
+        </label>
+      <% } %>
+      <% if (activeCategory) { %>
+        <input type="hidden" name="category" value="<%= activeCategory %>">
+      <% } %>
+      <a href="/listings" class="ms-auto small text-decoration-none">Clear filters</a>
+    </div>
+  </form>
+
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
     <% for(let listing of allListings) { %>
       <%
@@ -101,6 +157,9 @@
               >
               <% if(listing.category) { %>
                 <span class="category-tag text-uppercase"><%= listing.category %></span>
+              <% } %>
+              <% if(listing.isVerified) { %>
+                <span class="category-tag" style="left: 0.8rem; right: auto; background: #198754;">Verified</span>
               <% } %>
             </div>
             <div class="card-body">
@@ -126,6 +185,12 @@
                 &#8377;<%= listing.price.toLocaleString("en-IN") %>
                 <span class="unit">/month</span>
               </span>
+              <% if(listing.securityDeposit || listing.maintenanceCharge) { %>
+                <p class="text-muted mb-0" style="font-size:0.78rem;">
+                  <% if(listing.securityDeposit) { %>Deposit: ₹<%= listing.securityDeposit.toLocaleString("en-IN") %><% } %>
+                  <% if(listing.maintenanceCharge) { %> Maintenance: ₹<%= listing.maintenanceCharge.toLocaleString("en-IN") %><% } %>
+                </p>
+              <% } %>
             </div>
           </div>
         </a>

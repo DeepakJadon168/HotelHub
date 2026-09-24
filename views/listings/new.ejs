@@ -21,7 +21,8 @@
 
       <div class="mb-3">
         <label class="form-label">Upload Image</label>
-        <input type="file" name="listing[image]" class="form-control"/>
+        <input type="file" name="listing[image]" class="form-control" multiple/>
+        <div class="form-text">You can upload up to 6 photos.</div>
       </div>
 
       <div class="row">
@@ -33,6 +34,17 @@
         <div class="mb-3 col-md-6">
           <label class="form-label">Security Deposit (₹)</label>
           <input name="listing[securityDeposit]" placeholder="8000" type="number" min="0" class="form-control"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Monthly Maintenance (₹)</label>
+          <input name="listing[maintenanceCharge]" placeholder="500" type="number" min="0" class="form-control"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Nearby College / Landmark</label>
+          <input name="listing[nearbyLandmark]" placeholder="Near DAVV, Metro Station, etc." type="text" class="form-control"/>
         </div>
       </div>
 
@@ -78,6 +90,7 @@
             <option value="single">Single Sharing</option>
             <option value="double">Double Sharing</option>
             <option value="triple">Triple Sharing</option>
+            <option value="dorm">Dorm Sharing</option>
           </select>
         </div>
         <div class="mb-3 col-md-4">
@@ -85,6 +98,48 @@
           <input name="listing[contact]" placeholder="e.g., 9876543210" type="text" class="form-control" required/>
           <div class="invalid-feedback">Please enter contact number.</div>
         </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Amenities</label>
+        <div class="row g-2">
+          <% const amenities = [["wifi","WiFi"],["food","Food"],["ac","AC"],["attachedBath","Attached Bath"],["parking","Parking"],["laundry","Laundry"],["powerBackup","Power Backup"],["cctv","CCTV"],["housekeeping","Housekeeping"],["studyTable","Study Table"]]; %>
+          <% for (let amenity of amenities) { %>
+            <div class="col-md-4 col-6">
+              <label class="form-check">
+                <input class="form-check-input" type="checkbox" name="listing[amenities][<%= amenity[0] %>]">
+                <span class="form-check-label"><%= amenity[1] %></span>
+              </label>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Gate Timing</label>
+          <input name="listing[rules][gateTiming]" placeholder="e.g., 10:30 PM" type="text" class="form-control"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label">Notice Period</label>
+          <input name="listing[rules][noticePeriod]" placeholder="e.g., 30 days" type="text" class="form-control"/>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label d-block">House Rules</label>
+        <label class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="listing[rules][visitorsAllowed]">
+          <span class="form-check-label">Visitors allowed</span>
+        </label>
+        <label class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="listing[rules][smokingAllowed]">
+          <span class="form-check-label">Smoking allowed</span>
+        </label>
+        <label class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="listing[rules][petsAllowed]">
+          <span class="form-check-label">Pets allowed</span>
+        </label>
       </div>
 
       <button type="submit" class="btn w-100 py-2 mt-3 mb-5 rounded-3 fw-bold" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; box-shadow: 0 4px 15px rgba(138,99,255,0.4);">

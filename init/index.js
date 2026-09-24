@@ -2,15 +2,14 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlustclg";
 
 main()
   .then(() => {
-    console.log("Connected to DB successfully!");
-    return initDB();
+    console.log("connected to DB");
   })
   .catch((err) => {
-    console.log("DB Connection Error:", err);
+    console.log(err);
   });
 
 async function main() {
@@ -18,26 +17,10 @@ async function main() {
 }
 
 const initDB = async () => {
-  try {
-    // 1. Purana saara mismatched data saaf karo
-    await Listing.deleteMany({});
-    console.log("Old listings cleared.");
-
-    // 2. Loop chala kar mongoose validation bypass karke documents save karna
-    for (let item of initData.data) {
-      const listingDoc = new Listing({
-        ...item,
-        category: item.category || "trending" // Default value fallback
-      });
-
-      // CRITICAL BYPASS: validateBeforeSave false karne se terminal validation error nahi dega
-      await listingDoc.save({ validateBeforeSave: false });
-    }
-
-    console.log("🎉 SUCCESS: All listings successfully forced into DB from terminal!");
-    process.exit(0);
-  } catch (error) {
-    console.error("❌ Terminal execution failed:", error.message);
-    process.exit(1);
-  }
+  await Listing.deleteMany({});
+  initData.data=initData.data.map((obj)=>({...obj,owner:"66b5ed3c1f3c42b2089a0a98"}));
+  await Listing.insertMany(initData.data);
+  console.log("data was initialized");
 };
+
+initDB();

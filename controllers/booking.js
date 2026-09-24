@@ -27,6 +27,18 @@ module.exports.createBooking = async (req, res) => {
         return res.redirect(`/listings/${listing._id}`);
     }
 
+    const overlappingBooking = await Booking.findOne({
+        listing: listing._id,
+        status: { $in: ["pending", "confirmed"] },
+        checkIn: { $lt: checkOutDate },
+        checkOut: { $gt: checkInDate },
+    });
+
+    if (overlappingBooking) {
+        req.flash("error", "This PG is already requested or booked for the selected dates.");
+        return res.redirect(`/listings/${listing._id}`);
+    }
+
     // Calculate total days to convert into fractional months
     const totalDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
     
@@ -47,10 +59,11 @@ module.exports.createBooking = async (req, res) => {
         checkIn: checkInDate,
         checkOut: checkOutDate,
         totalPrice,
+        status: "pending",
     });
 
     await newBooking.save();
-    req.flash("success", `🎉 PG Booking Confirmed! Duration: ${months} Month(s) × ₹${listing.price}/mo = Total ₹${totalPrice}`);
+    req.flash("success", `Booking request sent! Duration: ${months} Month(s) x ₹${listing.price}/mo = Total ₹${totalPrice}`);
     res.redirect("/bookings/my");
 };
 
@@ -74,7 +87,49 @@ module.exports.cancelBooking = async (req, res) => {
         return res.redirect("/bookings/my");
     }
 
-    await Booking.findByIdAndDelete(req.params.bookingId);
+    booking.status = "cancelled";
+    await booking.save();
     req.flash("success", "Booking cancelled successfully");
     res.redirect("/bookings/my");
+};
+
+module.exports.updateBookingStatus = async (req, res) => {
+    const { bookingId } = req.params;
+    const { status } = req.body;
+
+    if (!["confirmed", "rejected"].includes(status)) {
+        req.flash("error", "Invalid booking status");
+        return res.redirect("/listings/dashboard/owner");
+    }
+
+    const booking = await Booking.findById(bookingId).populate("listing");
+    if (!booking || !booking.listing) {
+        req.flash("error", "Booking not found");
+        return res.redirect("/listings/dashboard/owner");
+    }
+
+    if (!booking.listing.owner.equals(req.user._id)) {
+        req.flash("error", "You are not authorized to update this booking");
+        return res.redirect("/listings/dashboard/owner");
+    }
+
+    if (status === "confirmed") {
+        const conflict = await Booking.findOne({
+            _id: { $ne: booking._id },
+            listing: booking.listing._id,
+            status: "confirmed",
+            checkIn: { $lt: booking.checkOut },
+            checkOut: { $gt: booking.checkIn },
+        });
+
+        if (conflict) {
+            req.flash("error", "Another confirmed booking already overlaps these dates.");
+            return res.redirect("/listings/dashboard/owner");
+        }
+    }
+
+    booking.status = status;
+    await booking.save();
+    req.flash("success", `Booking ${status}`);
+    res.redirect("/listings/dashboard/owner");
 };
